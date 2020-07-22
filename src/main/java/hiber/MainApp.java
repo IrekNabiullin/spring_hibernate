@@ -49,9 +49,8 @@ public class MainApp {
             System.out.println();
         }
 
-        User userHasCar = userService.getUserByCar("toyota", 120);
-        System.out.print("User " + userHasCar.getFirstName() + " " + userHasCar.getLastName());
-        System.out.println(" has a car " + userHasCar.getCar().getName() + " series " + userHasCar.getCar().getSeries());
+        userService.getUserByCar("audi", 80);
+        userService.getUserByCar("toyota", 120);
         context.close();
     }
 }

@@ -33,24 +33,13 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User getUserByCar(String name, int series) {
-//        User userHasCar = sessionFactory.getCurrentSession().get(User.class, id); // вытаскивает юзера по id
-        String hqlUser = "select u from User u where name = 'user1'";
-        TypedQuery<User> queryUser = sessionFactory.getCurrentSession().createQuery(hqlUser);
-        User userHasCar = queryUser.getSingleResult();
-
-        System.out.print("User " + userHasCar + " has car + ");
-        Car carByUser = userHasCar.getCar();
-        System.out.println(carByUser);
-//        return userHasCar;
-
-        String hqlCar = "select c from Car c where name = 'toyota'";
+        String hqlCar = "select c from Car c where name = '" + name + "' and series = '" + series + "'";
         TypedQuery<Car> queryCar = sessionFactory.getCurrentSession().createQuery(hqlCar);
         Car carOfUser = queryCar.getSingleResult();
-
-        System.out.print("Car " + carOfUser + " belongs to user + ");
-        User userGetByUser = carOfUser.getUser();
-        System.out.println(userGetByUser);
-        return userGetByUser;
+        User userGotByCar = carOfUser.getUser();
+        System.out.print("User " + userGotByCar.getFirstName() + " " + userGotByCar.getLastName());
+        System.out.println(" has a car " + userGotByCar.getCar().getName() + " series " + userGotByCar.getCar().getSeries());
+        return userGotByCar;
     }
 
     @Override
