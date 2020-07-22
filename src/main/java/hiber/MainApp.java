@@ -50,7 +50,7 @@ public class MainApp {
         }
 
         userService.getUserByCar("audi", 80);
-        userService.getUserByCar("toyota", 120);
+        userService.getUserByCar("toyota", 100);
         context.close();
     }
 }

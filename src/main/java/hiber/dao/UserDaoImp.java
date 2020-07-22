@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.sql.SQLException;
 import java.util.List;
 
 import static java.util.Objects.nonNull;
@@ -33,12 +34,18 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User getUserByCar(String name, int series) {
-        String hqlCar = "select c from Car c where name = '" + name + "' and series = '" + series + "'";
-        TypedQuery<Car> queryCar = sessionFactory.getCurrentSession().createQuery(hqlCar);
-        Car carOfUser = queryCar.getSingleResult();
-        User userGotByCar = carOfUser.getUser();
-        System.out.print("User " + userGotByCar.getFirstName() + " " + userGotByCar.getLastName());
-        System.out.println(" has a car " + userGotByCar.getCar().getName() + " series " + userGotByCar.getCar().getSeries());
+        User userGotByCar;
+        try {
+            String hqlCar = "select c from Car c where name = '" + name + "' and series = '" + series + "'";
+            TypedQuery<Car> queryCar = sessionFactory.getCurrentSession().createQuery(hqlCar);
+            Car carOfUser = queryCar.getSingleResult();
+            userGotByCar = carOfUser.getUser();
+            System.out.print("User " + userGotByCar.getFirstName() + " " + userGotByCar.getLastName());
+            System.out.println(" has a car " + userGotByCar.getCar().getName() + " series " + userGotByCar.getCar().getSeries());
+        } catch (Exception e) {
+            userGotByCar = null;
+            System.out.println("Nobody has a car " + name + " series " + series);
+        }
         return userGotByCar;
     }
 
