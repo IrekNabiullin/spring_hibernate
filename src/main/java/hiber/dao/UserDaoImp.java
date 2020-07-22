@@ -33,21 +33,24 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User getUserByCar(String name, int series) {
-//    Long id = Long.valueOf(series);
-//        return sessionFactory.getCurrentSession().get(Car.class, id).getUser();
-        ///////
-        Long id = getIdByCar(name, series);
-        return sessionFactory.getCurrentSession().createQuery("from User where id = '" + id + "'", User.class).getSingleResult();
-    }
+//        User userHasCar = sessionFactory.getCurrentSession().get(User.class, id); // вытаскивает юзера по id
+        String hqlUser = "select u from User u where name = 'user1'";
+        TypedQuery<User> queryUser = sessionFactory.getCurrentSession().createQuery(hqlUser);
+        User userHasCar = queryUser.getSingleResult();
 
-    public Long getIdByCar(String name, int series) {
-        String hql = "SELECT car_id FROM Car WHERE name = 'toyota'";
+        System.out.print("User " + userHasCar + " has car + ");
+        Car carByUser = userHasCar.getCar();
+        System.out.println(carByUser);
+//        return userHasCar;
 
-        Long result = (Long) sessionFactory.getCurrentSession().createQuery(hql).getSingleResult();
-  //      return (Long) sessionFactory.getCurrentSession().createQuery("select id from Car where " + //series вместо id
-  //              "name = '" + name + "'and id = '" + series + "'").getSingleResult();             //id вместо series
-        System.out.println("Car toyota has car_id + " + result);
-        return result;
+        String hqlCar = "select c from Car c where name = 'toyota'";
+        TypedQuery<Car> queryCar = sessionFactory.getCurrentSession().createQuery(hqlCar);
+        Car carOfUser = queryCar.getSingleResult();
+
+        System.out.print("Car " + carOfUser + " belongs to user + ");
+        User userGetByUser = carOfUser.getUser();
+        System.out.println(userGetByUser);
+        return userGetByUser;
     }
 
     @Override
@@ -57,16 +60,6 @@ public class UserDaoImp implements UserDao {
         List<User> users = query.getResultList();
         for (User user : users) {
             sessionFactory.getCurrentSession().delete(user);
-        }
-    }
-
-    @Override
-    public void deleteAllCarsFromTable() {
-        String hql = "select c from Car c";
-        TypedQuery<Car> query = sessionFactory.getCurrentSession().createQuery(hql);
-        List<Car> cars = query.getResultList();
-        for (Car car : cars) {
-            sessionFactory.getCurrentSession().delete(car);
         }
     }
 }

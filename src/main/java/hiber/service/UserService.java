@@ -9,5 +9,4 @@ public interface UserService {
     List<User> listUsers();
     User getUserByCar(String name, int series);
     void deleteAllUsersFromTable();
-    void deleteAllCarsFromTable();
 }

@@ -17,8 +17,6 @@ public class MainApp {
         UserService userService = context.getBean(UserService.class);
 
         userService.deleteAllUsersFromTable();
-        userService.deleteAllCarsFromTable();
-
 
         Car car1 = new Car();
         car1.setName("audi");
@@ -51,9 +49,9 @@ public class MainApp {
             System.out.println();
         }
 
-//        User userHasCar = userService.getUserByCar("toyota", 120);
-//        System.out.print("User " + userHasCar.getFirstName() + userHasCar.getLastName());
-//        System.out.println(" has a car " + userHasCar.getCar());
+        User userHasCar = userService.getUserByCar("toyota", 120);
+        System.out.print("User " + userHasCar.getFirstName() + " " + userHasCar.getLastName());
+        System.out.println(" has a car " + userHasCar.getCar().getName() + " series " + userHasCar.getCar().getSeries());
         context.close();
     }
 }

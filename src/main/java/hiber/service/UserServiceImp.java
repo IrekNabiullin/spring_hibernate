@@ -37,10 +37,4 @@ public class UserServiceImp implements UserService {
    public void deleteAllUsersFromTable() {
       userDao.deleteAllUsersFromTable();
    }
-
-   @Transactional
-   @Override
-   public void deleteAllCarsFromTable() {
-      userDao.deleteAllCarsFromTable();
-   }
 }
