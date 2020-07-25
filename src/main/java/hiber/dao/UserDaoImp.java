@@ -5,6 +5,8 @@ import hiber.model.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -50,12 +52,9 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void deleteAllUsersFromTable() {
-        String hql = "select u from User u";
-        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(hql);
-        List<User> users = query.getResultList();
-        for (User user : users) {
-            sessionFactory.getCurrentSession().delete(user);
-        }
+        String hql = "truncate table users";
+        sessionFactory.getCurrentSession().createNativeQuery(hql).executeUpdate();
     }
 }
